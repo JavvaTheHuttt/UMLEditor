@@ -129,6 +129,14 @@ public class Main extends Application{
 			//grid.setHgap(10);
 			
 			
+			
+			/*********************************************************************************
+			 * 
+			 * 		Project Layout
+			 * 
+			 *********************************************************************************/
+			
+			
 			layout = new BorderPane();
 			layout.setTop(menuBar);
 			layout.setLeft(leftMenu);
