@@ -142,25 +142,6 @@ public class Main extends Application{
 			layout.setLeft(leftMenu);
 			
 			
-			
-			/*
-			ChoiceBox<String> box = new ChoiceBox<>();
-			box.setValue("File");
-			fileMenu.getItems().add("File");
-			box.getItems().add("New");
-			box.getItems().add("Open File");
-			box.getItems().add("Save");
-			box.getItems().add("Print");
-			box.getItems().add("Close");
-			
-			BorderPane barderpane = new BorderPane();
-			BorderPane.setTop(box);
-			BorderPane.setLeft();
-			BorderPane.setRight();
-			*/
-			
-			
-			
 			//StackPane layout = new StackPane();
 			Scene scene = new Scene(layout,1750,1000);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
