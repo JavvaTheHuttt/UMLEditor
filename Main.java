@@ -108,7 +108,7 @@ public class Main extends Application{
 			 * 
 			 *********************************************************************************/
 			
-			VBox leftMenu = new VBox();
+			VBox leftMenu = new VBox(10
 			Button square = new Button("Square");
 			Button rectangle = new Button("Rectangle");
 			Button circle = new Button("Circle");
