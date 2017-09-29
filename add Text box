@@ -1,0 +1,30 @@
+public TextField createText(double x, double y, Color color) 
+		{
+		    TextField textBox = new TextField(); 
+		
+		    textBox.setCursor(Cursor.HAND);
+		
+		    textBox.setOnMousePressed((t) -> 
+		    {
+		      orgSceneX = t.getSceneX();
+		      orgSceneY = t.getSceneY();
+		
+		      TextField tb = (TextField) (t.getSource());
+		      tb.toFront();
+		    });
+		    
+		    textBox.setOnMouseDragged((t) -> 
+		    {
+		        double offsetX = t.getSceneX() - orgSceneX;
+		        double offsetY = t.getSceneY() - orgSceneY;
+		
+		        TextField l = (TextField) (t.getSource());
+		
+		        l.setLayoutX(l.getLayoutX() + offsetX);
+		        l.setLayoutY(l.getLayoutY() + offsetY);
+		
+		        orgSceneX = t.getSceneX();
+		        orgSceneY = t.getSceneY();
+		      });
+		      	return textBox;
+		    }
