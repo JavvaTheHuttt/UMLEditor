@@ -1,0 +1,15 @@
+circle.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			        Circle r = new Circle();
+			            r.setCenterX(300f);
+			            r.setCenterY(300f);
+			            r.setRadius(32.0f);
+			            r.setFill(Color.DARKGRAY);
+			            
+			            
+			            layout.getChildren().add(r);
+			       }			 
+			});
