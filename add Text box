@@ -1,3 +1,19 @@
+//main
+
+
+	textBox.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  TextField tb = createText(150, 150, Color.BLACK);
+			    	  tb.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(tb);
+			       }		 
+			});
+
+
+
 public TextField createText(double x, double y, Color color) 
 		{
 		    TextField textBox = new TextField(); 
