@@ -38,7 +38,7 @@ public class Main extends Application{
 	{
 		try {
 			window = primaryStage;
-			window.setTitle("UML Editor by Javva the Hutt");
+			window.setTitle("UML Editor by Java the Hut");
 			
 			
 			/**************************************************************************
