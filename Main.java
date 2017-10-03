@@ -205,7 +205,7 @@ public class Main extends Application{
 			    	  pane.getChildren().addAll(t);
 			       }		 
 			});
-			/*
+			
 			line.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
@@ -216,7 +216,18 @@ public class Main extends Application{
 			    	  pane.getChildren().addAll(l);
 			       }		 
 			});
-			*/
+			
+			textBox.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  TextField tb = createText(150, 150, Color.BLACK);
+			    	  tb.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(tb);
+			       }		 
+			});
+			
 		}
 		catch(Exception e) 
 		{
@@ -313,8 +324,8 @@ public class Main extends Application{
 		      });
 		      	return triangle;
 		    }
-		/*
-		public Line createLine(double x, double y, Color color) {
+		public Line createLine(double x, double y, Color color) 
+		{
 		    Line line = new Line(0, 0, 200, 300);
 		
 		    line.setCursor(Cursor.HAND);
@@ -324,9 +335,10 @@ public class Main extends Application{
 		      orgSceneX = t.getSceneX();
 		      orgSceneY = t.getSceneY();
 		
-		      Rectangle r = (Rectangle) (t.getSource());
+		      Line r = (Line) (t.getSource());
 		      r.toFront();
 		    });
+		    
 		    line.setOnMouseDragged((t) -> 
 		    {
 		        double offsetX = t.getSceneX() - orgSceneX;
@@ -342,16 +354,46 @@ public class Main extends Application{
 		      });
 		      	return line;
 		    }
-		    */
+		
+		public TextField createText(double x, double y, Color color) 
+		{
+		    TextField textBox = new TextField(); 
+		
+		    textBox.setCursor(Cursor.HAND);
+		
+		    textBox.setOnMousePressed((t) -> 
+		    {
+		      orgSceneX = t.getSceneX();
+		      orgSceneY = t.getSceneY();
+		
+		      TextField tb = (TextField) (t.getSource());
+		      tb.toFront();
+		    });
+		    
+		    textBox.setOnMouseDragged((t) -> 
+		    {
+		        double offsetX = t.getSceneX() - orgSceneX;
+		        double offsetY = t.getSceneY() - orgSceneY;
+		
+		        TextField l = (TextField) (t.getSource());
+		
+		        l.setLayoutX(l.getLayoutX() + offsetX);
+		        l.setLayoutY(l.getLayoutY() + offsetY);
+		
+		        orgSceneX = t.getSceneX();
+		        orgSceneY = t.getSceneY();
+		      });
+		      	return textBox;
+		    }
 
 }
 
 
 
 
-			
+	/*		
 
-/*
+
 			// StackPane layout = new StackPane();
 			Scene scene = new Scene(layout, 1750, 1000);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -362,5 +404,5 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 	}	
-	
-}*/
+	*/
+}
