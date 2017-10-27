@@ -1,21 +1,34 @@
 package application;
 	
 import javafx.application.Application;
-import javafx.event.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import application.objectMaker;
 
 
 
 public class Main extends Application{
-	
-	Stage window;
+	Circle q;
+	static Stage window;
 	BorderPane layout;
-	
+	double frameX = 800;
+	double frameY = 400;
+	double orgSceneX, orgSceneY;
+	Node temp;
 	
 	public static void main(String[] args) 
 	{
@@ -23,10 +36,9 @@ public class Main extends Application{
 	}
 	
 	@Override
-	public void start(Stage primaryStage) 
+	public void start(Stage primaryStage)  throws Exception
 	{
 		try {
-			
 			window = primaryStage;
 			window.setTitle("Wayne's World");
 			
@@ -117,16 +129,15 @@ public class Main extends Application{
 			
 			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, line);
 			
+			
+			
 			/*********************************************************************************
 			 * 
-			 * 		Grid Pane
+			 * 		Pane
 			 * 
 			 *********************************************************************************/
 			
-			//GridPane grid = new GridPane();
-			//grid.setPadding(new Insets(20, 10, 10, 10));
-			//grid.setVgap(8);
-			//grid.setHgap(10);
+			Pane pane = new Pane();
 			
 			
 			
@@ -140,6 +151,7 @@ public class Main extends Application{
 			layout = new BorderPane();
 			layout.setTop(menuBar);
 			layout.setLeft(leftMenu);
+			layout.setCenter(pane);
 			
 			
 			//StackPane layout = new StackPane();
@@ -147,16 +159,138 @@ public class Main extends Application{
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			window.setScene(scene);
 			window.show();
+			VBox group = new VBox(8);
+			TextField text1 = new TextField();
+			text1.setPrefHeight(30);
+			TextField text2 = new TextField();
+			text2.setPrefHeight(80);
+			TextField text3 = new TextField();
+			text3.setPrefHeight(80);
+			group.setLayoutX(frameX);
+			group.setLayoutY(frameY);
+			group.setPadding(new Insets(50, 5, 5, 5));
+			group.setBackground(new Background(new BackgroundFill(Color.web("#C0C0C0"), CornerRadii.EMPTY, Insets.EMPTY)));
+			group.getChildren().addAll(text1, text2, text3);
+			pane.getChildren().addAll(group);
+		    
+		    group.setOnMousePressed((t) -> 
+		    {
+		      orgSceneX = t.getSceneX();
+		      orgSceneY = t.getSceneY();
+		
+		      VBox g = (VBox) (t.getSource());
+		      g.toFront();
+		    });
+		    group.setOnMouseDragged((t) -> 
+		    {
+		        double offsetX = t.getSceneX() - orgSceneX;
+		        double offsetY = t.getSceneY() - orgSceneY;
+		
+		        VBox g = (VBox) (t.getSource());
+		        
+		        g.setLayoutX(g.getLayoutX() + offsetX);
+		        g.setLayoutY(g.getLayoutY() + offsetY);
+		
+		        orgSceneX = t.getSceneX();
+		        orgSceneY = t.getSceneY();
+		      });
+		    
+			circle.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  objectMaker<Circle> q = new objectMaker<Circle>();
+			    	  q.setAttributes(1, 50.0, 150.0, 100, Color.GREEN);
+			    	  Circle c = (Circle) q.createObject(1);
+			    	  pane.getChildren().addAll(c);
+			       }		 
+			});
 			
+			rectangle.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
+			    	  q.setAttributes(2, 50.0, 150.0, 100, Color.RED);
+			    	  Rectangle r = (Rectangle) q.createObject(2);
+			    	  r.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(r);
+			       }		 
+			});
 			
-		} 
+			square.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
+			    	  q.setAttributes(2, 100, 100, 100, Color.BLUE);
+			    	  Rectangle s = (Rectangle) q.createObject(2);
+			    	  s.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(s);
+			       }		 
+			});
+			
+			triangle.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
+			    	  q.setAttributes(3, 150, 150, 150, Color.ORANGE);
+				  	  Polygon t = (Polygon) q.createObject(3);
+			    	  t.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(t);
+			       }		 
+			});
+			
+			line.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  Line l = createLine(150, 150, Color.BLACK);
+			    	  l.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(l);
+			       }		 
+			});
+			
+		}
 		catch(Exception e) 
 		{
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
+
+		public Line createLine(double x, double y, Color color) {
+		    Line line = new Line(0, 0, 200, 300);
+		
+		    line.setCursor(Cursor.HAND);
+		
+		    line.setOnMousePressed((t) -> 
+		    {
+		      orgSceneX = t.getSceneX();
+		      orgSceneY = t.getSceneY();
+		
+		      Line l = (Line) (t.getSource());
+		      l.toFront();
+		    });
+		    line.setOnMouseDragged((t) -> 
+		    {
+		        double offsetX = t.getSceneX() - orgSceneX;
+		        double offsetY = t.getSceneY() - orgSceneY;
+		
+		        Line l = (Line) (t.getSource());
+		
+		        l.setLayoutX(l.getLayoutX() + offsetX);
+		        l.setLayoutY(l.getLayoutY() + offsetY);
+		
+		        orgSceneX = t.getSceneX();
+		        orgSceneY = t.getSceneY();
+		      });
+		      	return line;
+		    }
+		    
 }
