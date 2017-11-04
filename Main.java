@@ -9,7 +9,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import application.objectMaker;
+import application.classBox;
 
 
 
@@ -126,8 +126,9 @@ public class Main extends Application{
 			Button circle = new Button("Circle");
 			Button triangle = new Button("Triangle");
 			Button line = new Button("Line");
+			Button box = new Button("Class Box");
 			
-			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, line);
+			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, line, box);
 			
 			
 			
@@ -159,42 +160,17 @@ public class Main extends Application{
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			window.setScene(scene);
 			window.show();
-			VBox group = new VBox(8);
-			TextField text1 = new TextField();
-			text1.setPrefHeight(30);
-			TextField text2 = new TextField();
-			text2.setPrefHeight(80);
-			TextField text3 = new TextField();
-			text3.setPrefHeight(80);
-			group.setLayoutX(frameX);
-			group.setLayoutY(frameY);
-			group.setPadding(new Insets(50, 5, 5, 5));
-			group.setBackground(new Background(new BackgroundFill(Color.web("#C0C0C0"), CornerRadii.EMPTY, Insets.EMPTY)));
-			group.getChildren().addAll(text1, text2, text3);
-			pane.getChildren().addAll(group);
-		    
-		    group.setOnMousePressed((t) -> 
-		    {
-		      orgSceneX = t.getSceneX();
-		      orgSceneY = t.getSceneY();
+			box.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	   	classBox cb = new classBox();
+						VBox group = (VBox) cb.createBox();
+						pane.getChildren().addAll(group);
+			       }		 
+			});
 		
-		      VBox g = (VBox) (t.getSource());
-		      g.toFront();
-		    });
-		    group.setOnMouseDragged((t) -> 
-		    {
-		        double offsetX = t.getSceneX() - orgSceneX;
-		        double offsetY = t.getSceneY() - orgSceneY;
-		
-		        VBox g = (VBox) (t.getSource());
-		        
-		        g.setLayoutX(g.getLayoutX() + offsetX);
-		        g.setLayoutY(g.getLayoutY() + offsetY);
-		
-		        orgSceneX = t.getSceneX();
-		        orgSceneY = t.getSceneY();
-		      });
-		    
 			circle.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
