@@ -3,26 +3,19 @@ package application;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import application.objectMaker;
 import application.classBox;
 
-
-
 public class Main extends Application{
-	Circle q;
 	static Stage window;
 	BorderPane layout;
 	double frameX = 800;
@@ -40,7 +33,7 @@ public class Main extends Application{
 	{
 		try {
 			window = primaryStage;
-			window.setTitle("Wayne's World");
+			window.setTitle("Java the Hutt");
 			
 			
 			/**************************************************************************
@@ -119,17 +112,12 @@ public class Main extends Application{
 			 * 		Left Menu
 			 * 
 			 *********************************************************************************/
-			
 			VBox leftMenu = new VBox();
-			Button square = new Button("Square");
-			Button rectangle = new Button("Rectangle");
-			Button circle = new Button("Circle");
-			Button triangle = new Button("Triangle");
+			Button empty_triangle = new Button("Association");
+			Button filled_triangle = new Button("Composite");
 			Button line = new Button("Line");
 			Button box = new Button("Class Box");
-			
-			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, line, box);
-			
+			leftMenu.getChildren().addAll(empty_triangle, filled_triangle, line, box);
 			
 			
 			/*********************************************************************************
@@ -137,9 +125,7 @@ public class Main extends Application{
 			 * 		Pane
 			 * 
 			 *********************************************************************************/
-			
 			Pane pane = new Pane();
-			
 			
 			
 			/*********************************************************************************
@@ -147,19 +133,18 @@ public class Main extends Application{
 			 * 		Project Layout
 			 * 
 			 *********************************************************************************/
-			
-			
 			layout = new BorderPane();
 			layout.setTop(menuBar);
 			layout.setLeft(leftMenu);
 			layout.setCenter(pane);
-			
 			
 			//StackPane layout = new StackPane();
 			Scene scene = new Scene(layout,1750,1000);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			window.setScene(scene);
 			window.show();
+			
+			//Button listener to create a new class box
 			box.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
@@ -170,67 +155,46 @@ public class Main extends Application{
 						pane.getChildren().addAll(group);
 			       }		 
 			});
-		
-			circle.setOnAction(new EventHandler<ActionEvent>()
+			
+			//Button listener to create a new association arrow
+			empty_triangle.setOnAction(new EventHandler<ActionEvent>()
 			{
-			       @Override
+				 @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  objectMaker<Circle> q = new objectMaker<Circle>();
-			    	  q.setAttributes(1, 50.0, 150.0, 100, Color.GREEN);
-			    	  Circle c = (Circle) q.createObject(1);
-			    	  pane.getChildren().addAll(c);
-			       }		 
+			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
+			    	  q.setAttributes("arrow", 50, 50, 15, Color.GRAY);
+				  	  Polygon t = (Polygon) q.createObject("arrow");
+			    	  t.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(t);
+			       }	 
 			});
 			
-			rectangle.setOnAction(new EventHandler<ActionEvent>()
-			{
-			       @Override
-			       public void handle(ActionEvent e) 
-			       {
-			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
-			    	  q.setAttributes(2, 50.0, 150.0, 100, Color.RED);
-			    	  Rectangle r = (Rectangle) q.createObject(2);
-			    	  r.relocate(frameX, frameY);
-			    	  pane.getChildren().addAll(r);
-			       }		 
-			});
-			
-			square.setOnAction(new EventHandler<ActionEvent>()
-			{
-			       @Override
-			       public void handle(ActionEvent e) 
-			       {
-			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
-			    	  q.setAttributes(2, 100, 100, 100, Color.BLUE);
-			    	  Rectangle s = (Rectangle) q.createObject(2);
-			    	  s.relocate(frameX, frameY);
-			    	  pane.getChildren().addAll(s);
-			       }		 
-			});
-			
-			triangle.setOnAction(new EventHandler<ActionEvent>()
+			//Button listener to create a new composition arrow
+			filled_triangle.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
 			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
-			    	  q.setAttributes(3, 150, 150, 150, Color.ORANGE);
-				  	  Polygon t = (Polygon) q.createObject(3);
+			    	  q.setAttributes("arrow", 50, 50, 15, Color.BLACK);
+				  	  Polygon t = (Polygon) q.createObject("arrow");
 			    	  t.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(t);
 			       }		 
 			});
 			
+			//Button listener to create a new line
 			line.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Line l = createLine(150, 150, Color.BLACK);
+			    	  Line l = createLine();
 			    	  l.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(l);
-			       }		 
+			       }	
+			       
 			});
 			
 		}
@@ -239,8 +203,13 @@ public class Main extends Application{
 			e.printStackTrace();
 		}
 	}
-
-		public Line createLine(double x, double y, Color color) {
+		/**
+		 * 
+		 * @returns a newly created Line, its location 
+		 *			and listens for a mouse click and drag
+		 * 			to move its location.
+		 */
+		public Line createLine() {
 		    Line line = new Line(0, 0, 200, 300);
 		
 		    line.setCursor(Cursor.HAND);
