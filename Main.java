@@ -1,44 +1,141 @@
 package application;
 	
-import java.net.URL;
-
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
+//import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.ScrollBar;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.awt.Desktop;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import application.objectMaker;
 
 
 
 public class Main extends Application{
 	Circle q;
-	Stage window;
+	static Stage window;
 	BorderPane layout;
 	double frameX = 800;
 	double frameY = 400;
 	double orgSceneX, orgSceneY;
+	Node temp;
+	private Desktop desktop = Desktop.getDesktop();
 	
 	public static void main(String[] args) 
 	{
 		launch(args);
 	}
 	
+	private void openFile(File file) {
+        try 
+        {
+            this.desktop.open(file);
+        } 
+        
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    }
+	
+	 private void printLog(TextArea textArea, List<File> files) {
+	        if (files == null || files.isEmpty()) {
+	            return;
+	        }
+	        for (File file : files) {
+	            textArea.appendText(file.getAbsolutePath() + "\n");
+	        }
+	    }
+	 
+	 private void SaveFile(String string, File file){
+	        try {
+	            FileWriter fileWriter = null;
+	             
+	            fileWriter = new FileWriter(file);
+	            fileWriter.write(string);
+	            fileWriter.close();
+	        } catch (IOException ex) {
+	            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+	         
+	    }
+	 
+	 private void fileChooserDesign(FileChooser fileChooser) {
+	        // Set title for FileChooser
+	        fileChooser.setTitle("Select File");
+	 
+	        // Set Initial Directory
+	        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+	        
+	        // Add Extension Filters
+	        fileChooser.getExtensionFilters().addAll(//
+	        new FileChooser.ExtensionFilter("All Files", "*.*"), //
+	        new FileChooser.ExtensionFilter("DOC", "*.doc"),
+	        new FileChooser.ExtensionFilter("TXT", "*.txt"),
+	        new FileChooser.ExtensionFilter("EXC", "*.exc"),
+	        new FileChooser.ExtensionFilter("JPG", "*.jpg"), //
+	        new FileChooser.ExtensionFilter("PNG", "*.png"));
+	    }
+	 
+	 private TextField getFocusedTextField() {
+		  TextField[] cut = new TextField[] {};
+		  for(TextField text : cut) {
+		   if( text.isFocused() ) {
+		    return text;
+		   }
+		  }
+		  return null;  
+		 }
+
+	
 	@Override
 	public void start(Stage primaryStage)  throws Exception
 	{
 		try {
 			window = primaryStage;
-			window.setTitle("UML Editor by Java the Hut");
+			window.setTitle("Wayne's World");
+			
+			//fileChooser for opening, saving, renaming etc the file
+			final FileChooser fileChooser = new FileChooser();
+			fileChooserDesign(fileChooser);
+			   
+		    TextArea textArea = new TextArea();
+		    textArea.setMinHeight(70);
+		    
+		    
+		    //new project/tab
+		    Group root = new Group();
 			
 			
 			/**************************************************************************
@@ -54,24 +151,101 @@ public class Main extends Application{
 			Menu projectMenu = new Menu("_Project");
 			Menu helpMenu = new Menu("_Help");
 			
+			/******************************
+			 * Functionality of the FILE menu
+			 * ---will be rearranged after all functions are working
+			 *******************************/
 			
-			//file menu items
-			fileMenu.getItems().add(new MenuItem("New Project"));
-			fileMenu.getItems().add(new MenuItem("Open File"));
-			fileMenu.getItems().add(new MenuItem("Rename"));
-			fileMenu.getItems().add(new SeparatorMenuItem());
-			fileMenu.getItems().add(new MenuItem("Save"));
-			fileMenu.getItems().add(new SeparatorMenuItem());
-			MenuItem close = new MenuItem("Close");
-			fileMenu.getItems().add(close);
+		
+			MenuItem newProject = new MenuItem("New Project", null);
+			
+			
+			//opens an existing project
+			MenuItem openFile = new MenuItem("Open File", null);
+		    openFile.setOnAction(new EventHandler<ActionEvent>() {
+		      public void handle(ActionEvent event) {
+		    	  textArea.clear();
+	                File file = fileChooser.showOpenDialog(primaryStage);
+	                if (file != null) {
+	                    openFile(file);
+	                    List<File> files = Arrays.asList(file);
+	                    printLog(textArea, files);
+	                }
+		      }
+		    });
+		    
+		    //renames an already saved project
+		    MenuItem rename = new MenuItem("Rename", null);
+		    rename.setOnAction(new EventHandler<ActionEvent>() {
+		      public void handle(ActionEvent event) {
+		    	  File oldName = new File("C:/s.txt");
+		    	  File newName = new File("C:/d.txt");
+
+		    	  if (oldName.renameTo(newName)) 
+		    	  {
+		    	      System.out.println("renamed");
+		    	  } 
+		    	  else 
+		    	  {
+		    	      System.out.println("Error");
+		    	  }
+		      }
+		    });
+		    
+		    //Saves a project
+		    MenuItem save = new MenuItem("Save File", null);
+		    save.setOnAction(new EventHandler<ActionEvent>() {
+		      public void handle(ActionEvent event) {
+		    	  FileChooser fileChooser = new FileChooser();
+		          fileChooser.setTitle("Save File");
+		          
+		          //Set extension filter
+	              FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+	              fileChooser.getExtensionFilters().add(extFilter);
+		          
+		          File file = fileChooser.showSaveDialog(primaryStage);
+		            if (file != null) {
+		                SaveFile("Enter File Name", file);
+						//Files.copy(file.toPath(), file.toPath());
+		            }
+		      }
+		    });
+		    
+		    //close
+		    MenuItem close = new MenuItem("Close");
 			close.setOnAction(e -> System.exit(0));
 			
+			fileMenu.getItems().add(newProject);
+		    fileMenu.getItems().add(openFile);
+		    fileMenu.getItems().add(rename);
+		    fileMenu.getItems().add(new SeparatorMenuItem());
+		    fileMenu.getItems().add(save);
+		    fileMenu.getItems().add(new SeparatorMenuItem());
+		    fileMenu.getItems().add(close);
+			
+			/******************************
+			 * Functionality of the EDIT menu
+			 * ---will be rearranged after all functions are working
+			 *******************************/
+			
+			
+			MenuItem undo = new MenuItem("Undo", null);
+			
+			MenuItem cut = new MenuItem("Cut", null);
+			cut.setOnAction(new EventHandler<ActionEvent>() {
+			      public void handle(ActionEvent event) {
+			    	  //cut();
+			      }
+			});
+			MenuItem copy = new MenuItem("Copy", null);
+			MenuItem paste = new MenuItem("Paste", null);
+			
 			//edit menu items
-			editMenu.getItems().add(new MenuItem("Undo"));
+			editMenu.getItems().add(undo);
 			editMenu.getItems().add(new SeparatorMenuItem());
-			editMenu.getItems().add(new MenuItem("Cut"));
-			editMenu.getItems().add(new MenuItem("Copy"));
-			editMenu.getItems().add(new MenuItem("Paste"));
+			editMenu.getItems().add(cut);
+			editMenu.getItems().add(copy);
+			editMenu.getItems().add(paste);
 			editMenu.getItems().add(new SeparatorMenuItem());
 			editMenu.getItems().add(new MenuItem("Delete"));
 			editMenu.getItems().add(new SeparatorMenuItem());
@@ -84,17 +258,41 @@ public class Main extends Application{
 			searchMenu.getItems().add(new MenuItem("References"));
 			searchMenu.getItems().add(new MenuItem("Implementations"));
 			
-			//project menu items
-			projectMenu.getItems().add(new MenuItem("Open Project"));
-			projectMenu.getItems().add(new MenuItem("Close Project"));
-			projectMenu.getItems().add(new SeparatorMenuItem());
+			
+			/******************************
+			 * Functionality of the PROJECT menu
+			 * ---will be rearranged after all functions are working
+			 *******************************/
+			
+			MenuItem openProject = new MenuItem("Open Project", null);
+		    openProject.setOnAction(new EventHandler<ActionEvent>() {
+		      public void handle(ActionEvent event) {
+		    	  textArea.clear();
+	                File file = fileChooser.showOpenDialog(primaryStage);
+	                if (file != null) {
+	                    openFile(file);
+	                    List<File> files = Arrays.asList(file);
+	                    printLog(textArea, files);
+	                }
+		      }
+		    });
+			
+		    MenuItem closeProject = new MenuItem("Close Project");
+			close.setOnAction(e -> System.exit(0));
+			
+			
+			projectMenu.getItems().add(openProject);
+		   	projectMenu.getItems().add(closeProject);
+		    	projectMenu.getItems().add(new SeparatorMenuItem());
 			
 			MenuItem buildProject = new MenuItem("Build Project");
 			buildProject.setDisable(true);
 			projectMenu.getItems().add(buildProject);
 			
 			projectMenu.getItems().add(new SeparatorMenuItem());
-			projectMenu.getItems().add(new MenuItem("Properties"));
+			MenuItem properties = new MenuItem("Properties");
+			//properties.setOnAction(e -> AlertBox.display("Properties", "HERE ARE THE PROPERTIES"));
+			//projectMenu.getItems().add(new MenuItem("Properties"));
 			
 			//help menu items
 			helpMenu.getItems().add(new MenuItem("Welcome"));
@@ -124,10 +322,12 @@ public class Main extends Application{
 			Button square = new Button("Square");
 			Button rectangle = new Button("Rectangle");
 			Button circle = new Button("Circle");
-			Button triangle = new Button("Triangle");
+			Button triangle = new Button("Open Triangle");
+			Button triangleFilled = new Button("Filled Triangle");
 			Button line = new Button("Line");
+			Button dashedLine = new Button("Dashed Line");
 			
-			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, line);
+			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, triangleFilled, line, dashedLine);
 			
 			
 			
@@ -157,19 +357,55 @@ public class Main extends Application{
 			//StackPane layout = new StackPane();
 			Scene scene = new Scene(layout,1750,1000);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			window.getIcons().add(new Image("javathehut.jpg"));
 			window.setScene(scene);
 			window.show();
 			
-		    
 			
+			VBox group = new VBox(8);
+			TextField text1 = new TextField();
+			text1.setPrefHeight(30);
+			TextField text2 = new TextField();
+			text2.setPrefHeight(80);
+			TextField text3 = new TextField();
+			text3.setPrefHeight(80);
+			group.setLayoutX(frameX);
+			group.setLayoutY(frameY);
+			group.setPadding(new Insets(50, 5, 5, 5));
+			group.setBackground(new Background(new BackgroundFill(Color.web("#C0C0C0"), CornerRadii.EMPTY, Insets.EMPTY)));
+			group.getChildren().addAll(text1, text2, text3);
+			pane.getChildren().addAll(group);
+		    
+		    group.setOnMousePressed((t) -> 
+		    {
+		      orgSceneX = t.getSceneX();
+		      orgSceneY = t.getSceneY();
+		
+		      VBox g = (VBox) (t.getSource());
+		      g.toFront();
+		    });
+		    group.setOnMouseDragged((t) -> 
+		    {
+		        double offsetX = t.getSceneX() - orgSceneX;
+		        double offsetY = t.getSceneY() - orgSceneY;
+		
+		        VBox g = (VBox) (t.getSource());
+		        
+		        g.setLayoutX(g.getLayoutX() + offsetX);
+		        g.setLayoutY(g.getLayoutY() + offsetY);
+		
+		        orgSceneX = t.getSceneX();
+		        orgSceneY = t.getSceneY();
+		      });
+		    
 			circle.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Circle q = createCircle(frameX, frameY, 50.0, Color.BLUE);
-			    	  pane.getChildren().addAll(q);
+			    	  objectMaker<Circle> q = new objectMaker<Circle>();
+			    	  q.setAttributes(1, 50.0, 150.0, 100, Color.GREEN);
+			    	  Circle c = (Circle) q.createObject(1);
+			    	  pane.getChildren().addAll(c);
 			       }		 
 			});
 			
@@ -178,7 +414,9 @@ public class Main extends Application{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Rectangle r = createRectangle(200, 100, Color.RED);
+			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
+			    	  q.setAttributes(2, 50.0, 150.0, 100, Color.RED);
+			    	  Rectangle r = (Rectangle) q.createObject(2);
 			    	  r.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(r);
 			       }		 
@@ -189,7 +427,9 @@ public class Main extends Application{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Rectangle s = createRectangle(100, 100, Color.GREEN);
+			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
+			    	  q.setAttributes(2, 100, 100, 100, Color.BLUE);
+			    	  Rectangle s = (Rectangle) q.createObject(2);
 			    	  s.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(s);
 			       }		 
@@ -200,9 +440,24 @@ public class Main extends Application{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Polygon t = createTriangle(150, 150, 150, Color.ORANGE);
+			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
+			    	  q.setAttributes(3, 150, 150, 150, Color.IVORY);
+				  	  Polygon t = (Polygon) q.createObject(3);
 			    	  t.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(t);
+			       }		 
+			});
+			
+			triangleFilled.setOnAction(new EventHandler<ActionEvent>()
+			{
+			       @Override
+			       public void handle(ActionEvent e) 
+			       {
+			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
+			    	  q.setAttributes(3, 60, 40, 60, Color.BLACK);
+				  	  Polygon s = (Polygon) q.createObject(3);
+			    	  s.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(s);
 			       }		 
 			});
 			
@@ -216,116 +471,30 @@ public class Main extends Application{
 			    	  pane.getChildren().addAll(l);
 			       }		 
 			});
-			
-			textBox.setOnAction(new EventHandler<ActionEvent>()
+		
+			dashedLine.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  TextField tb = createText(150, 150, Color.BLACK);
-			    	  tb.relocate(frameX, frameY);
-			    	  pane.getChildren().addAll(tb);
+			    	  Line l = createDashedLine(150, 150, Color.BLACK);
+			    	  l.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(l);
 			       }		 
 			});
+			
 			
 		}
 		catch(Exception e) 
 		{
 			e.printStackTrace();
 		}
+		
 	}
-		
-		public Circle createCircle(double x, double y, double r, Color color) {
-		    Circle circle = new Circle(x, y, r, color);
-		
-		    circle.setCursor(Cursor.HAND);
-		
-		    circle.setOnMousePressed((t) -> 
-		    {
-		      orgSceneX = t.getSceneX();
-		      orgSceneY = t.getSceneY();
-		
-		      Circle c = (Circle) (t.getSource());
-		      c.toFront();
-		    });
-		    circle.setOnMouseDragged((t) -> 
-		    {
-		        double offsetX = t.getSceneX() - orgSceneX;
-		        double offsetY = t.getSceneY() - orgSceneY;
-		
-		        Circle c = (Circle) (t.getSource());
-		
-		        c.setCenterX(c.getCenterX() + offsetX);
-		        c.setCenterY(c.getCenterY() + offsetY);
-		
-		        orgSceneX = t.getSceneX();
-		        orgSceneY = t.getSceneY();
-		      });
-		      	return circle;
-		    }
-		
-		public Rectangle createRectangle(double x, double y, Color color) {
-		    Rectangle rect = new Rectangle(x, y, color);
-		
-		    rect.setCursor(Cursor.HAND);
-		
-		    rect.setOnMousePressed((t) -> 
-		    {
-		      orgSceneX = t.getSceneX();
-		      orgSceneY = t.getSceneY();
-		
-		      Rectangle r = (Rectangle) (t.getSource());
-		      r.toFront();
-		    });
-		    rect.setOnMouseDragged((t) -> 
-		    {
-		        double offsetX = t.getSceneX() - orgSceneX;
-		        double offsetY = t.getSceneY() - orgSceneY;
-		
-		        Rectangle r = (Rectangle) (t.getSource());
-		
-		        r.setX(r.getX() + offsetX);
-		        r.setY(r.getY() + offsetY);
-		
-		        orgSceneX = t.getSceneX();
-		        orgSceneY = t.getSceneY();
-		      });
-		      	return rect;
-		    }
-		public Polygon createTriangle(double x, double y, double z, Color color) {
-		    Polygon triangle = new Polygon();
-		    triangle.getPoints().addAll(new Double[]{
-		    	    0.0, 0.0,
-		    	    10.0, x,
-		    	    y, z });
-		    triangle.setFill(color);
-		    triangle.setCursor(Cursor.HAND);
-		
-		    triangle.setOnMousePressed((t) -> 
-		    {
-		      orgSceneX = t.getSceneX();
-		      orgSceneY = t.getSceneY();
-		
-		      Polygon p = (Polygon) (t.getSource());
-		      p.toFront();
-		    });
-		    triangle.setOnMouseDragged((t) -> 
-		    {
-		        double offsetX = t.getSceneX() - orgSceneX;
-		        double offsetY = t.getSceneY() - orgSceneY;
-		
-		        Polygon p = (Polygon) (t.getSource());
-		
-		        p.setLayoutX(p.getLayoutX() + offsetX);
-		        p.setLayoutY(p.getLayoutY() + offsetY);
-		
-		        orgSceneX = t.getSceneX();
-		        orgSceneY = t.getSceneY();
-		      });
-		      	return triangle;
-		    }
-		public Line createLine(double x, double y, Color color) 
-		{
+	
+	
+
+		public Line createLine(double x, double y, Color color) {
 		    Line line = new Line(0, 0, 200, 300);
 		
 		    line.setCursor(Cursor.HAND);
@@ -335,10 +504,9 @@ public class Main extends Application{
 		      orgSceneX = t.getSceneX();
 		      orgSceneY = t.getSceneY();
 		
-		      Line r = (Line) (t.getSource());
-		      r.toFront();
+		      Line l = (Line) (t.getSource());
+		      l.toFront();
 		    });
-		    
 		    line.setOnMouseDragged((t) -> 
 		    {
 		        double offsetX = t.getSceneX() - orgSceneX;
@@ -354,28 +522,28 @@ public class Main extends Application{
 		      });
 		      	return line;
 		    }
+	
 		
-		public TextField createText(double x, double y, Color color) 
-		{
-		    TextField textBox = new TextField(); 
+		public Line createDashedLine(double x, double y, Color color) {
+		    Line line = new Line(20, 80, 270, 80);
+		    line.getStrokeDashArray().addAll(25d,10d);
 		
-		    textBox.setCursor(Cursor.HAND);
+		    line.setCursor(Cursor.HAND);
 		
-		    textBox.setOnMousePressed((t) -> 
+		    line.setOnMousePressed((t) -> 
 		    {
 		      orgSceneX = t.getSceneX();
 		      orgSceneY = t.getSceneY();
 		
-		      TextField tb = (TextField) (t.getSource());
-		      tb.toFront();
+		      Line l = (Line) (t.getSource());
+		      l.toFront();
 		    });
-		    
-		    textBox.setOnMouseDragged((t) -> 
+		    line.setOnMouseDragged((t) -> 
 		    {
 		        double offsetX = t.getSceneX() - orgSceneX;
 		        double offsetY = t.getSceneY() - orgSceneY;
 		
-		        TextField l = (TextField) (t.getSource());
+		        Line l = (Line) (t.getSource());
 		
 		        l.setLayoutX(l.getLayoutX() + offsetX);
 		        l.setLayoutY(l.getLayoutY() + offsetY);
@@ -383,11 +551,6 @@ public class Main extends Application{
 		        orgSceneX = t.getSceneX();
 		        orgSceneY = t.getSceneY();
 		      });
-		      	return textBox;
+		      	return line;
 		    }
-
-}
-
-
-
 }
