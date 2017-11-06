@@ -390,19 +390,4 @@ public class Main extends Application{
 
 
 
-
-	/*		
-
-
-			// StackPane layout = new StackPane();
-			Scene scene = new Scene(layout, 1750, 1000);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			window.setScene(scene);
-			window.show();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
-	*/
 }
