@@ -1,0 +1,11 @@
+private void openFile(File file) {
+        try 
+        {
+            this.desktop.open(file);
+        } 
+        
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    }
