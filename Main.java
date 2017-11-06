@@ -108,52 +108,7 @@ public class Main extends Application{
 	        new FileChooser.ExtensionFilter("PNG", "*.png"));
 	    }
 	 
-	 private TextField getFocusedTextField() {
-		  TextField[] cut = new TextField[] {};
-		  for(TextField text : cut) {
-		   if( text.isFocused() ) {
-		    return text;
-		   }
-		  }
-		  return null;  
-		 }
-	 /*
-	 public void cut() {
-		  
-		  TextField focusedTF = getFocusedTextField();
-
-		  String text = focusedTF.getSelectedText();
-		  
-		  ClipboardContent content = new ClipboardContent();
-		  content.putString(text);
-		  systemClipboard.setContent(content);
-		  
-		  IndexRange range = focusedTF.getSelection();
-		  String origText = focusedTF.getText();
-		  String firstPart = StringUtils.substring( origText, 0, range.getStart() );
-		  String lastPart = StringUtils.substring( origText, range.getEnd(), StringUtils.length(origText) );
-		  focusedTF.setText( firstPart + lastPart );
-		  
-		  focusedTF.positionCaret( range.getStart() );
-
-		 }
-	 
-	 
-	 /*
-	 private void scrollBar(Stage window) {
-		 ScrollPane scroll = new ScrollPane();
-		 
-		 scroll.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		 scroll.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		 
-		 scroll.vvalueProperty().addListener(new ChangeListener<Number>() {
-			    public void changed(ObservableValue<? extends Number> ov,
-			        Number old_val, Number new_val) {
-			            window.setLayoutY(-new_val.doubleValue());
-			        }
-			});
-	 }
-	*/
+	
 	@Override
 	public void start(Stage primaryStage)  throws Exception
 	{
@@ -168,8 +123,6 @@ public class Main extends Application{
 		    TextArea textArea = new TextArea();
 		    textArea.setMinHeight(70);
 		    
-		    //scroll bar 
-		    //scrollBar(window);
 		    
 		    //new project/tab
 		    Group root = new Group();
@@ -195,54 +148,6 @@ public class Main extends Application{
 			
 		
 			MenuItem newProject = new MenuItem("New Project", null);
-			//newProject.setOnAction(e -> window.setScene(newScene));
-			
-			/*
-		    newProject.setOnAction(new EventHandler<ActionEvent>() {
-		      public void handle(ActionEvent event) {
-		    	  
-		    	  
-		    	  
-		    	 /* textArea.clear();
-		    	  TabPane tabPane = new TabPane();
-
-		          BorderPane borderPane = new BorderPane();
-		          for (int i = 0; i < 5; i++) {
-		              Tab tab = new Tab();
-		              tab.setText("Tab" + i);
-		              HBox hbox = new HBox();
-		              hbox.getChildren().add(new Label("Tab" + i));
-		              hbox.setAlignment(Pos.CENTER);
-		              tab.setContent(hbox);
-		              tabPane.getTabs().add(tab);
-		          }
-		          // bind to take available space
-		          borderPane.prefHeightProperty().bind(window.heightProperty());
-		          borderPane.prefWidthProperty().bind(window.widthProperty());
-		          borderPane.setCenter(tabPane);
-		          root.getChildren().add(borderPane);
-		          
-		    	  
-		    	  try{
-		              FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Demo.fxml"));
-		              Parent root1 = (Parent) fxmlLoader.load();
-		              Stage stage = new Stage();
-		              stage.initModality(Modality.APPLICATION_MODAL);
-		              stage.initStyle(StageStyle.UNDECORATED);
-		              stage.setTitle("ABC");
-		              stage.setScene(new Scene(root1));  
-		              stage.show();
-		              } 
-		    	  catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					*/
-		   // }
-		    //});
-			
-			
-			
 			
 			
 			//opens an existing project
@@ -308,15 +213,6 @@ public class Main extends Application{
 		    fileMenu.getItems().add(save);
 		    fileMenu.getItems().add(new SeparatorMenuItem());
 		    fileMenu.getItems().add(close);
-		    
-		    //file menu items
-			//fileMenu.getItems().add(new MenuItem("New Project"));
-			//fileMenu.getItems().add(new MenuItem("Open File"));
-			//fileMenu.getItems().add(new MenuItem("Rename"));
-			//fileMenu.getItems().add(new SeparatorMenuItem());
-			//fileMenu.getItems().add(new MenuItem("Save"));
-			//fileMenu.getItems().add(new SeparatorMenuItem());
-			//fileMenu.getItems().add(new MenuItem("Close"));
 			
 			
 			/******************************
@@ -346,11 +242,6 @@ public class Main extends Application{
 			
 			//edit menu items
 			editMenu.getItems().add(new MenuItem("Undo"));
-			//editMenu.getItems().add(new SeparatorMenuItem());
-			//editMenu.getItems().add(new MenuItem("Cut"));
-			//editMenu.getItems().add(new MenuItem("Copy"));
-			//editMenu.getItems().add(new MenuItem("Paste"));
-			//editMenu.getItems().add(new SeparatorMenuItem());
 			editMenu.getItems().add(new MenuItem("Delete"));
 			editMenu.getItems().add(new SeparatorMenuItem());
 			editMenu.getItems().add(new MenuItem("Find/Replace"));
@@ -463,18 +354,6 @@ public class Main extends Application{
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			window.setScene(scene);
 			window.show();
-	
-			//action for NEW PROJECT in the file menu
-			//----had to be moved for layout purposes
-			newProject.setOnAction(new EventHandler<ActionEvent>() {
-			      public void handle(ActionEvent event) {
-			    	  Scene newScene = new Scene(layout, 1752, 1000);
-						//newScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-						//window.setScene(newScene);
-						//window.show();
-		                
-			      }
-			    });
 			
 			
 			VBox group = new VBox(8);
