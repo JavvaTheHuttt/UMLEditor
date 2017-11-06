@@ -1,0 +1,16 @@
+private void fileChooserDesign(FileChooser fileChooser) {
+	        // Set title for FileChooser
+	        fileChooser.setTitle("Select File");
+	 
+	        // Set Initial Directory
+	        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+	        
+	        // Add Extension Filters
+	        fileChooser.getExtensionFilters().addAll(//
+	        new FileChooser.ExtensionFilter("All Files", "*.*"), //
+	        new FileChooser.ExtensionFilter("DOC", "*.doc"),
+	        new FileChooser.ExtensionFilter("TXT", "*.txt"),
+	        new FileChooser.ExtensionFilter("EXC", "*.exc"),
+	        new FileChooser.ExtensionFilter("JPG", "*.jpg"), //
+	        new FileChooser.ExtensionFilter("PNG", "*.png"));
+	    }
