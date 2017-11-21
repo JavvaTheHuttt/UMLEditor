@@ -160,10 +160,11 @@ public class Main extends Application{
 			MenuItem newProject = new MenuItem("New Project", null);
 			
 			
-			//opens an existing project
-			MenuItem openFile = new MenuItem("Open File", null);
-		    openFile.setOnAction(new EventHandler<ActionEvent>() {
-		      public void handle(ActionEvent event) {
+			// Listener to open an existing project
+		    openFile.setOnAction(new EventHandler<ActionEvent>() 
+		    {
+		      public void handle(ActionEvent event) 
+		      {
 		    	  textArea.clear();
 	                File file = fileChooser.showOpenDialog(primaryStage);
 	                if (file != null) {
@@ -175,9 +176,10 @@ public class Main extends Application{
 		    });
 		    
 		    //renames an already saved project
-		    MenuItem rename = new MenuItem("Rename", null);
-		    rename.setOnAction(new EventHandler<ActionEvent>() {
-		      public void handle(ActionEvent event) {
+		    rename.setOnAction(new EventHandler<ActionEvent>()
+		    {
+		      public void handle(ActionEvent event) 
+		      {
 		    	  File oldName = new File("C:/s.txt");
 		    	  File newName = new File("C:/d.txt");
 
@@ -192,10 +194,11 @@ public class Main extends Application{
 		      }
 		    });
 		    
-		    //Saves a project
-		    MenuItem save = new MenuItem("Save File", null);
-		    save.setOnAction(new EventHandler<ActionEvent>() {
-		      public void handle(ActionEvent event) {
+		    //listener to save a project
+		    save.setOnAction(new EventHandler<ActionEvent>() 
+		    {
+		      public void handle(ActionEvent event) 
+		      {
 		    	  FileChooser fileChooser = new FileChooser();
 		          fileChooser.setTitle("Save File");
 		          
@@ -206,15 +209,11 @@ public class Main extends Application{
 		          File file = fileChooser.showSaveDialog(primaryStage);
 		            if (file != null) {
 		                SaveFile("Enter File Name", file);
-						//Files.copy(file.toPath(), file.toPath());
 		            }
 		      }
 		    });
-		    
-		    //close
-		    MenuItem close = new MenuItem("Close");
-			close.setOnAction(e -> System.exit(0));
 			
+		    //adding items to the File Menu
 			fileMenu.getItems().add(newProject);
 		    fileMenu.getItems().add(openFile);
 		    fileMenu.getItems().add(rename);
@@ -223,50 +222,75 @@ public class Main extends Application{
 		    fileMenu.getItems().add(new SeparatorMenuItem());
 		    fileMenu.getItems().add(close);
 			
+			
 			/******************************
+			 * 
 			 * Functionality of the EDIT menu
-			 * ---will be rearranged after all functions are working
+			 *
 			 *******************************/
 			
-			
+			//creating menu items for the Edit Menu
 			MenuItem undo = new MenuItem("Undo", null);
-			
 			MenuItem cut = new MenuItem("Cut", null);
-			cut.setOnAction(new EventHandler<ActionEvent>() {
-			      public void handle(ActionEvent event) {
-			    	  //cut();
-			      }
-			});
 			MenuItem copy = new MenuItem("Copy", null);
 			MenuItem paste = new MenuItem("Paste", null);
+			MenuItem delete = new MenuItem("Delete", null);
+			MenuItem find = new MenuItem("Find/Replace", null);
 			
-			//edit menu items
+			//adding items to the Edit Menu
 			editMenu.getItems().add(undo);
 			editMenu.getItems().add(new SeparatorMenuItem());
 			editMenu.getItems().add(cut);
 			editMenu.getItems().add(copy);
 			editMenu.getItems().add(paste);
 			editMenu.getItems().add(new SeparatorMenuItem());
-			editMenu.getItems().add(new MenuItem("Delete"));
+			editMenu.getItems().add(delete);
 			editMenu.getItems().add(new SeparatorMenuItem());
-			editMenu.getItems().add(new MenuItem("Find/Replace"));
-			
-			//search menu items 
-			searchMenu.getItems().add(new MenuItem("Search..."));
-			searchMenu.getItems().add(new MenuItem("File..."));
-			searchMenu.getItems().add(new SeparatorMenuItem());
-			searchMenu.getItems().add(new MenuItem("References"));
-			searchMenu.getItems().add(new MenuItem("Implementations"));
+			editMenu.getItems().add(find);
 			
 			
 			/******************************
-			 * Functionality of the PROJECT menu
-			 * ---will be rearranged after all functions are working
+			 * 
+			 * Functionality of the SEARCH menu
+			 *
 			 *******************************/
 			
+			//creating menu items for Search Menu
+			MenuItem search = new MenuItem("Search...", null);
+			MenuItem fileInfo = new MenuItem("File...", null);
+			MenuItem ref = new MenuItem("References", null);
+			MenuItem imp = new MenuItem("Implementations", null);
+			
+			//adding items to seaerch menu
+			searchMenu.getItems().add(search);
+			searchMenu.getItems().add(fileInfo);
+			searchMenu.getItems().add(new SeparatorMenuItem());
+			searchMenu.getItems().add(ref);
+			searchMenu.getItems().add(imp);
+			
+			
+			
+			/******************************
+			 * 
+			 * Functionality of the PROJECT menu
+			 * 
+			 *******************************/
+			
+			//creating menu items for Project Menu
 			MenuItem openProject = new MenuItem("Open Project", null);
-		    openProject.setOnAction(new EventHandler<ActionEvent>() {
-		      public void handle(ActionEvent event) {
+			MenuItem closeProject = new MenuItem("Close Project", null);
+			close.setOnAction(e -> System.exit(0));
+			
+			MenuItem buildProject = new MenuItem("Build Project");
+			buildProject.setDisable(true);
+			
+			MenuItem properties = new MenuItem("Properties");
+			
+			// Listener to open a project
+		    openProject.setOnAction(new EventHandler<ActionEvent>() 
+		    {
+		      public void handle(ActionEvent event) 
+		      {
 		    	  textArea.clear();
 	                File file = fileChooser.showOpenDialog(primaryStage);
 	                if (file != null) {
@@ -276,40 +300,178 @@ public class Main extends Application{
 	                }
 		      }
 		    });
+		    
+		    properties.setOnAction(new EventHandler<ActionEvent>() 
+		    {
+			      public void handle(ActionEvent event) 
+			      {
+			    	  Alert alert = new Alert(AlertType.INFORMATION);
+				        alert.setTitle("Properties");
+				        alert.setHeaderText("Properties");
+				        String s = "Version: Java the Hutt Release (1.3.0)\r\n" 
+				        		+ "Build id: 12102017-4200\r\n"
+				        		+ "Construction Date: September 24th, 2017";
+				        alert.setContentText(s);
+				        alert.show();
+			    	 
+			      }
+			    });
 			
-		    MenuItem closeProject = new MenuItem("Close Project");
-			close.setOnAction(e -> System.exit(0));
-			
-			
+			//adding items to Project Menu
 			projectMenu.getItems().add(openProject);
-		   	projectMenu.getItems().add(closeProject);
-		    	projectMenu.getItems().add(new SeparatorMenuItem());
-			
-			MenuItem buildProject = new MenuItem("Build Project");
-			buildProject.setDisable(true);
+		    projectMenu.getItems().add(closeProject);
+		    projectMenu.getItems().add(new SeparatorMenuItem());
 			projectMenu.getItems().add(buildProject);
-			
 			projectMenu.getItems().add(new SeparatorMenuItem());
-			MenuItem properties = new MenuItem("Properties");
-			//properties.setOnAction(e -> AlertBox.display("Properties", "HERE ARE THE PROPERTIES"));
-			//projectMenu.getItems().add(new MenuItem("Properties"));
+			projectMenu.getItems().add(properties);
+
 			
-			//help menu items
-			helpMenu.getItems().add(new MenuItem("Welcome"));
+			/******************************
+			 * 
+			 * Functionality of the HELP menu
+			 * 
+			 *******************************/
+			
+			//creating menu items for Help Menu
+			MenuItem welcome = new MenuItem("Welcome", null);
+			MenuItem help = new MenuItem("Help Contents", null);
+			MenuItem tips = new MenuItem("Tips and Tricks", null);
+			MenuItem updates = new MenuItem("Check for Updates", null);
+			MenuItem about = new MenuItem("About", null);
+			
+			welcome.setOnAction(new EventHandler<ActionEvent>() 
+			{
+			      public void handle(ActionEvent event) 
+			      {
+			    	  Alert alert = new Alert(AlertType.INFORMATION);
+				        alert.setTitle("Welcome");
+				        alert.setHeaderText("Welcome to Java the Hutt UML Editor!");
+				        String s = "We have poured our blood, sweat and tears into this masterpiece,"
+				        		+ "so please take your time and look around our site.\r\n"
+				        		+ "We hope you enjoy your stay";
+				        alert.setContentText(s);
+				        alert.show();
+			    	 
+			      }
+			    });
+			
+			help.setOnAction(new EventHandler<ActionEvent>() 
+			{
+			      public void handle(ActionEvent event) 
+			      {
+			    	  Alert alert = new Alert(AlertType.INFORMATION);
+				        alert.setTitle("Help");
+				        alert.setHeaderText("Need a little guidance? ");
+				        String s = "Please refer to this online referance provided to you by none other\r\n"
+				        		+ "than the Crude Construction Inc.\r\n"
+				        		+ "https://youtu.be/yfSLuEj99d0";
+				        alert.setContentText(s);
+				        alert.show();
+			    	 
+			      }
+			    });
+			
+			tips.setOnAction(new EventHandler<ActionEvent>() 
+			{
+			      public void handle(ActionEvent event) 
+			      {
+			    	  Alert alert = new Alert(AlertType.INFORMATION);
+				        alert.setTitle("Tips and Tricks ");
+				        alert.setHeaderText("Here are a few tips and tricks to get you through\r\n "
+				        		+ "that case of the Mondays");
+				        /*
+				        VBox vb = new VBox(10);
+				        ButtonType tricky = new ButtonType("Tricky?", ButtonBar.ButtonData.OTHER);
+				        tricky.setOnAction(new EventHandler<ActionEvent>() 
+				        {
+				        	
+				        	@Override
+						      public void handle(ActionEvent event) 
+				        	{
+						    	  
+						    	  Alert alertBox = new Alert(AlertType.INFORMATION);
+							        alertBox.setTitle("Tricky Tricky Tricky");
+							        alertBox.setHeaderText(null);
+							        String string = "This speech is my recital, I think it's very vital\r\n" + 
+							        		"To rock (A rhyme), that's right (On time)\r\n" + 
+							        		"It's Tricky is the title, here we go\r\n" + 
+							        		"It's Tricky to rock a rhyme, to rock a rhyme that's right on time\r\n" + 
+							        		"It's Tricky, it's Tricky (Tricky) Tricky (Tricky)";
+							        alertBox.setContentText(string);
+							        alertBox.show();
+						    	 
+						      }
+						    });
+						    */
+				        String s = "Alt + f will open the File Menu\r\n"
+				        		+ "Alt + e will open the Edit Menu\r\n"
+				        		+ "Alt + s will open the Search Menu\r\n"
+				        		+ "Alt + p will open the Project Menu\r\n"
+				        		+ "Alt + h will open the Help Menu\r\n";
+				       // vb.getChildren().addAll(button);
+				        alert.setContentText(s);
+				        alert.show();
+			    	 
+			      }
+			    });
+			
+			updates.setOnAction(new EventHandler<ActionEvent>() 
+			{
+			      public void handle(ActionEvent event) 
+			      {
+			    	  Alert alert = new Alert(AlertType.INFORMATION);
+				        alert.setTitle("Updates");
+				        alert.setHeaderText("Lets check to see if you are up-to-date");
+				        String s = "This version is currently up to date!";
+				        alert.setContentText(s);
+				        
+				        alert.show();
+			    	 
+			      }
+			    });
+			
+			about.setOnAction(new EventHandler<ActionEvent>() 
+			{
+			      public void handle(ActionEvent event) 
+			      {
+			    	  Alert alert = new Alert(AlertType.INFORMATION);
+				        alert.setTitle("About");
+				        alert.setHeaderText("Java The Hutt UML editor was constructed by a small group of masterminds.\r\n"
+				        		+ "Their dedication and perseverance created this great work, for great works are performed \r\n"
+				        		+ "not by strength, but by perseverance. ");
+				        String s = "Version: Java the Hutt Release (1.3.0)\r\n" + 
+				        		"Build id: 12102017-4200\r\n" + 
+				        		"(c) Copyright Java the Hutt contributors and others 2017.\r\n"
+				        		+ "All rights reserved. Java the Hutt and the Java the Hutt logo are trademarks \r\n"
+				        		+ "of the Crude Construction Foundation, Inc.,\r\n"
+				        		+ "https://youtu.be/Gs069dndIYk. The Java The Hutt logo \r\n"
+				        		+ "cannot be altered without The Hutt Member's permission. \r\n"
+				        		+ "Java The Hutt logos are not provided for use under trademark guidelines, https://youtu.be/y4NUZJMCJ20.\r\n"
+				        		+ "Java The Hutt is a  trademark or registered trademark of Crude Construction and/or its affiliates.\r\n" 
+				        		+ "Other names may be trademarks of their respective owners." ;
+				        alert.setContentText(s);
+				        
+				        alert.show();
+			    	 
+			      }
+			    });
+			
+			//adding items to the Help Menu
+			helpMenu.getItems().add(welcome);
 			helpMenu.getItems().add(new SeparatorMenuItem());
-			helpMenu.getItems().add(new MenuItem("Help Contents"));
+		    helpMenu.getItems().add(help);
+		    helpMenu.getItems().add(new SeparatorMenuItem());
+			helpMenu.getItems().add(tips);
 			helpMenu.getItems().add(new SeparatorMenuItem());
-			helpMenu.getItems().add(new MenuItem("Tips and Tricks"));
+			helpMenu.getItems().add(updates);
 			helpMenu.getItems().add(new SeparatorMenuItem());
-			helpMenu.getItems().add(new MenuItem("Check for Updates"));
-			helpMenu.getItems().add(new SeparatorMenuItem());
-			helpMenu.getItems().add(new MenuItem("About"));
+			helpMenu.getItems().add(about);
 			
 			
 			//adds menus and drop down files to the top of the page
 			MenuBar menuBar = new MenuBar();
 			menuBar.getMenus().addAll(fileMenu, editMenu, searchMenu, projectMenu, helpMenu);
-			
+			menuBar.setId("menu_bar");
 			
 			
 			/*********************************************************************************
@@ -318,16 +480,16 @@ public class Main extends Application{
 			 * 
 			 *********************************************************************************/
 			
-			VBox leftMenu = new VBox();
-			Button square = new Button("Square");
-			Button rectangle = new Button("Rectangle");
-			Button circle = new Button("Circle");
-			Button triangle = new Button("Open Triangle");
-			Button triangleFilled = new Button("Filled Triangle");
+			VBox leftMenu = new VBox(10);
+			Button empty_triangle = new Button("Association");
+			Button filled_triangle = new Button("Composite");
 			Button line = new Button("Line");
-			Button dashedLine = new Button("Dashed Line");
+			Button dashed_line = new Button("Dashed Line");
+			Button box = new Button("Class Box");
 			
-			leftMenu.getChildren().addAll(square, rectangle, circle, triangle, triangleFilled, line, dashedLine);
+			leftMenu.getChildren().addAll(empty_triangle, filled_triangle, line, dashed_line, box);
+			leftMenu.setId("left_menu");
+			
 			
 			
 			
@@ -357,144 +519,92 @@ public class Main extends Application{
 			//StackPane layout = new StackPane();
 			Scene scene = new Scene(layout,1750,1000);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			window.getIcons().add(new Image("javathehut.jpg"));
 			window.setScene(scene);
 			window.show();
+	
 			
-			
-			VBox group = new VBox(8);
-			TextField text1 = new TextField();
-			text1.setPrefHeight(30);
-			TextField text2 = new TextField();
-			text2.setPrefHeight(80);
-			TextField text3 = new TextField();
-			text3.setPrefHeight(80);
-			group.setLayoutX(frameX);
-			group.setLayoutY(frameY);
-			group.setPadding(new Insets(50, 5, 5, 5));
-			group.setBackground(new Background(new BackgroundFill(Color.web("#C0C0C0"), CornerRadii.EMPTY, Insets.EMPTY)));
-			group.getChildren().addAll(text1, text2, text3);
-			pane.getChildren().addAll(group);
-		    
-		    group.setOnMousePressed((t) -> 
-		    {
-		      orgSceneX = t.getSceneX();
-		      orgSceneY = t.getSceneY();
-		
-		      VBox g = (VBox) (t.getSource());
-		      g.toFront();
-		    });
-		    group.setOnMouseDragged((t) -> 
-		    {
-		        double offsetX = t.getSceneX() - orgSceneX;
-		        double offsetY = t.getSceneY() - orgSceneY;
-		
-		        VBox g = (VBox) (t.getSource());
-		        
-		        g.setLayoutX(g.getLayoutX() + offsetX);
-		        g.setLayoutY(g.getLayoutY() + offsetY);
-		
-		        orgSceneX = t.getSceneX();
-		        orgSceneY = t.getSceneY();
-		      });
-		    
-			circle.setOnAction(new EventHandler<ActionEvent>()
+			//Button listener to create a new class box
+			box.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  objectMaker<Circle> q = new objectMaker<Circle>();
-			    	  q.setAttributes(1, 50.0, 150.0, 100, Color.GREEN);
-			    	  Circle c = (Circle) q.createObject(1);
-			    	  pane.getChildren().addAll(c);
+			    	   	classBox cb = new classBox();
+						VBox group = (VBox) cb.createBox();
+						pane.getChildren().addAll(group);
 			       }		 
 			});
 			
-			rectangle.setOnAction(new EventHandler<ActionEvent>()
+			//Button listener to create a new association arrow
+			empty_triangle.setOnAction(new EventHandler<ActionEvent>()
 			{
-			       @Override
+				 @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
-			    	  q.setAttributes(2, 50.0, 150.0, 100, Color.RED);
-			    	  Rectangle r = (Rectangle) q.createObject(2);
-			    	  r.relocate(frameX, frameY);
-			    	  pane.getChildren().addAll(r);
-			       }		 
+			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
+			    	  q.setAttributes("arrow", 50, 50, 15, Color.TRANSPARENT);
+				  	  Polygon t = (Polygon) q.createObject("arrow");
+				  	  t.setStrokeWidth(2);
+				  	  t.setStroke(Color.BLACK);
+			    	  t.relocate(frameX, frameY);
+			    	  pane.getChildren().addAll(t);
+			       }	 
 			});
 			
-			square.setOnAction(new EventHandler<ActionEvent>()
-			{
-			       @Override
-			       public void handle(ActionEvent e) 
-			       {
-			    	  objectMaker<Rectangle> q = new objectMaker<Rectangle>();
-			    	  q.setAttributes(2, 100, 100, 100, Color.BLUE);
-			    	  Rectangle s = (Rectangle) q.createObject(2);
-			    	  s.relocate(frameX, frameY);
-			    	  pane.getChildren().addAll(s);
-			       }		 
-			});
-			
-			triangle.setOnAction(new EventHandler<ActionEvent>()
+			//Button listener to create a new composition arrow
+			filled_triangle.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
 			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
-			    	  q.setAttributes(3, 150, 150, 150, Color.IVORY);
-				  	  Polygon t = (Polygon) q.createObject(3);
+			    	  q.setAttributes("arrow", 50, 50, 15, Color.BLACK);
+				  	  Polygon t = (Polygon) q.createObject("arrow");
 			    	  t.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(t);
 			       }		 
 			});
 			
-			triangleFilled.setOnAction(new EventHandler<ActionEvent>()
-			{
-			       @Override
-			       public void handle(ActionEvent e) 
-			       {
-			    	  objectMaker<Polygon> q = new objectMaker<Polygon>();
-			    	  q.setAttributes(3, 60, 40, 60, Color.BLACK);
-				  	  Polygon s = (Polygon) q.createObject(3);
-			    	  s.relocate(frameX, frameY);
-			    	  pane.getChildren().addAll(s);
-			       }		 
-			});
-			
+			//Button listener to create a new line
 			line.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Line l = createLine(150, 150, Color.BLACK);
+			    	  Line l = createLine();
 			    	  l.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(l);
-			       }		 
+			       }	
+			       
 			});
-		
-			dashedLine.setOnAction(new EventHandler<ActionEvent>()
+			
+			//Button listener to create a new dashed line
+			dashed_line.setOnAction(new EventHandler<ActionEvent>()
 			{
 			       @Override
 			       public void handle(ActionEvent e) 
 			       {
-			    	  Line l = createDashedLine(150, 150, Color.BLACK);
+			    	  Line l = createDashedLine();
 			    	  l.relocate(frameX, frameY);
 			    	  pane.getChildren().addAll(l);
-			       }		 
+			       }	
+			       
 			});
-			
-			
 		}
 		catch(Exception e) 
 		{
 			e.printStackTrace();
 		}
-		
 	}
-	
-	
-
-		public Line createLine(double x, double y, Color color) {
+		/**
+		 * 
+		 * @returns a newly created Line, its location 
+		 *			and listens for a mouse click and drag
+		 * 			to move its location.
+		 */
+		public Line createLine() 
+		{
 		    Line line = new Line(0, 0, 200, 300);
 		
 		    line.setCursor(Cursor.HAND);
@@ -522,15 +632,21 @@ public class Main extends Application{
 		      });
 		      	return line;
 		    }
-	
+		    
+		/**
+		 * 
+		 * @returns a newly created Dashed Line, its location 
+		 *			and listens for a mouse click and drag
+		 * 			to move its location.
+		 */
+		public Line createDashedLine() 
+		{
+			Line dash_line = new Line(20, 80, 270, 80);
+			dash_line.getStrokeDashArray().addAll(25d,10d);
 		
-		public Line createDashedLine(double x, double y, Color color) {
-		    Line line = new Line(20, 80, 270, 80);
-		    line.getStrokeDashArray().addAll(25d,10d);
+			dash_line.setCursor(Cursor.HAND);
 		
-		    line.setCursor(Cursor.HAND);
-		
-		    line.setOnMousePressed((t) -> 
+			dash_line.setOnMousePressed((t) -> 
 		    {
 		      orgSceneX = t.getSceneX();
 		      orgSceneY = t.getSceneY();
@@ -538,7 +654,7 @@ public class Main extends Application{
 		      Line l = (Line) (t.getSource());
 		      l.toFront();
 		    });
-		    line.setOnMouseDragged((t) -> 
+			dash_line.setOnMouseDragged((t) -> 
 		    {
 		        double offsetX = t.getSceneX() - orgSceneX;
 		        double offsetY = t.getSceneY() - orgSceneY;
@@ -551,6 +667,7 @@ public class Main extends Application{
 		        orgSceneX = t.getSceneX();
 		        orgSceneY = t.getSceneY();
 		      });
-		      	return line;
+		      	return dash_line;
 		    }
+		
 }
