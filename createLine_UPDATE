@@ -1,0 +1,32 @@
+package application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+public class CreateLine {
+	public Button display(Pane pane, Double frameX, Double frameY) 
+	{
+		Button line = new Button("Line");
+		
+		//Button listener to create a new line
+		line.setOnAction(new EventHandler<ActionEvent>()
+		{
+		       @Override
+		       public void handle(ActionEvent e) 
+		       {
+		    	 	Ball c1 = new Ball(frameX, frameY, 10);
+		    	   	c1.setFill(Color.BLACK);
+		    	   	pane.getChildren().addAll(c1);
+		    	   	Ball c2 = new Ball(frameX + 5, frameY + 5, 10);
+		    	   	c2.setFill(Color.BLACK);
+		    	   	pane.getChildren().addAll(c2);
+			    	Connection connection = new Connection(c1, c2);
+			    	pane.getChildren().addAll(connection);
+		       }	
+		       
+		});
+		
+		return line;
+	}
+}
