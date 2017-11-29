@@ -78,17 +78,7 @@ public class objectMaker<E>{
 			((Shape) e).setFill(color);
 			((Node) e).setCursor(Cursor.HAND);
 		}
-		/*
-		else if (var == "circle")
-		{
-			e = (E)new Circle();
-			((Circle)e).setCenterX(r);
-			((Shape) e).setFill(color);
-			((Node) e).setCursor(Cursor.HAND);
-			
-			
-		}
-		*/
+	
 		else
 		{
 			e = null;
@@ -120,11 +110,6 @@ public class objectMaker<E>{
 	        	((Polygon) c).setLayoutY(((Polygon) c).getLayoutY() + offsetY);
 	        }
 	        
-	        if (var == "circle")
-	        {
-	        	((Circle) c).setCenterX(((Circle) c).getCenterX() + offsetX);
-	        	((Circle) c).setCenterY(((Circle) c).getCenterY() + offsetY);
-	        }
 	
 	        orgSceneX = t.getSceneX();
 	        orgSceneY = t.getSceneY();
