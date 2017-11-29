@@ -372,7 +372,10 @@ public class TopMenu {
 
 	
 	/*
-	 * opens a file
+	 * 
+	 * This method takes in a file 
+	 * ouput: opens a file
+	 * 
 	 */
 	private void openFile(File file) {
         try 
@@ -387,7 +390,10 @@ public class TopMenu {
     }
 	
 	/*
-	 * prints text to the screen
+	 * 
+	 * This method take in a TextArea and a vector of lists
+	 * output: prints text to the screen
+	 * 
 	 */
 	 private void printLog(TextArea textArea, List<File> files) {
 	        if (files == null || files.isEmpty()) {
@@ -399,7 +405,10 @@ public class TopMenu {
 	    }
 	 
 	 /*
+	  * 
+	  * This method takes a 
 	  * Saves a txt file by writing a string
+	  * 
 	  */
 	 private void SaveFile(String string, File file){
 	        try {
@@ -415,8 +424,10 @@ public class TopMenu {
 	    }
 	 
 	 /*
+	  * 
 	  * The design for the function Open File button. User can choose between a variety of 
 	  * extensions. The primary option to open the file is user.home
+	  * 
 	  */
 	 private void fileChooserDesign(FileChooser fileChooser) {
 	        // Set title for FileChooser

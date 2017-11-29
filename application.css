@@ -1,0 +1,26 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+	-fx-background-color: rgb(204,204,204);
+}
+
+.button {
+    -fx-font-family: "courier";
+    -fx-font-size: 120.0%;
+    -fx-background-color: rgb(204,204,204);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+#left_menu {
+	-fx-border-color: rgb(128,128,128);
+	-fx-border-width: 3;
+	-fx-background-color: rgb(204,204,204);
+	-fx-padding: 15;
+}
+
+#menu_bar {
+	-fx-padding: 10;
+}
