@@ -11,7 +11,7 @@ public class CreateEDiamond {
 
 	public Button display(Pane pane, Double frameX, Double frameY) 
 	{
-		Button empty_diamond = new Button("Empty Diamond");
+		Button empty_diamond = new Button("Aggregation");
 		
 		//Button listener to create a new aggregation
 		empty_diamond.setOnAction(new EventHandler<ActionEvent>()
@@ -27,6 +27,11 @@ public class CreateEDiamond {
 			  	  t.setStroke(Color.BLACK);
 		    	  t.relocate(frameX, frameY);
 		    	  pane.getChildren().addAll(t);
+		    	  Ball c = new Ball(frameX + 5, frameY + 5, 10);
+			  	  c.setFill(Color.BLACK);
+			  	  pane.getChildren().addAll(c);
+			  	  ConnectD connection = new ConnectD(t, c);
+			  	  pane.getChildren().addAll(connection);
 		       }		 
 		});
 		

@@ -82,7 +82,10 @@ public class Main extends Application{
 		    
 			VBox leftMenu = new VBox(10);
 			CreateETriangle t = new CreateETriangle();
-			Button empty_triangle = t.display(pane, frameX, frameY);
+			Button empty_triangle = t.display(pane, frameX, frameY, "");
+			
+			CreateETriangle s = new CreateETriangle();
+			Button dash_empty_triangle = s.display(pane, frameX, frameY, "dash");
 			
 			CreateFTriangle f = new CreateFTriangle();
 			Button filled_triangle = f.display(pane, frameX, frameY);
@@ -105,8 +108,11 @@ public class Main extends Application{
 			createBox b = new createBox();
 			Button box = b.display(pane);
 			
+			textBox tb = new textBox();
+			Button textbox = tb.display(pane, frameX, frameY);
 			
-			leftMenu.getChildren().addAll(empty_triangle, filled_triangle, diamond, empty_diamond, circle, line, dashed_line, box);
+			
+			leftMenu.getChildren().addAll(empty_triangle, dash_empty_triangle, filled_triangle, diamond, empty_diamond, circle, line, dashed_line, box, textbox);
 			leftMenu.setId("left_menu");
 			
 			

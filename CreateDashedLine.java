@@ -2,10 +2,9 @@ package application;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
+import javafx.scene.paint.Color;
 
 public class CreateDashedLine {
 	
@@ -20,9 +19,16 @@ public class CreateDashedLine {
 		       @Override
 		       public void handle(ActionEvent e) 
 		       {
-		    	  Line l = dashedLineCreator();
-		    	  l.relocate(frameX, frameY);
-		    	  pane.getChildren().addAll(l);
+		    	  
+		    	  Ball c1 = new Ball(frameX, frameY, 10);
+		    	   	c1.setFill(Color.BLACK);
+		    	   	pane.getChildren().addAll(c1);
+		    	   	Ball c2 = new Ball(frameX + 5, frameY + 5, 10);
+		    	   	c2.setFill(Color.BLACK);
+		    	   	pane.getChildren().addAll(c2);
+			    	Connection connection = new Connection(c1, c2);
+			    	connection.getStrokeDashArray().addAll(25d, 10d);
+			    	pane.getChildren().addAll(connection); 
 		       }	
 		       
 		});
@@ -31,41 +37,4 @@ public class CreateDashedLine {
 	
 	}
 	
-	/**
-	 * 
-	 * @returns a newly created Dashed Line, its location 
-	 *			and listens for a mouse click and drag
-	 * 			to move its location.
-	 */
-	public Line dashedLineCreator() 
-	{
-		Line dash_line = new Line(20, 80, 270, 80);
-		dash_line.getStrokeDashArray().addAll(25d,10d);
-	
-		dash_line.setCursor(Cursor.HAND);
-	
-		dash_line.setOnMousePressed((t) -> 
-	    {
-	      orgSceneX = t.getSceneX();
-	      orgSceneY = t.getSceneY();
-	
-	      Line l = (Line) (t.getSource());
-	      l.toFront();
-	    });
-		dash_line.setOnMouseDragged((t) -> 
-	    {
-	        double offsetX = t.getSceneX() - orgSceneX;
-	        double offsetY = t.getSceneY() - orgSceneY;
-	
-	        Line l = (Line) (t.getSource());
-	
-	        l.setLayoutX(l.getLayoutX() + offsetX);
-	        l.setLayoutY(l.getLayoutY() + offsetY);
-	
-	        orgSceneX = t.getSceneX();
-	        orgSceneY = t.getSceneY();
-	      });
-	      	return dash_line;
-	    }
-
 }

@@ -24,6 +24,11 @@ public class CreateFTriangle {
 			  	  Polygon t = (Polygon) q.createObject("arrow");
 		    	  t.relocate(frameX, frameY);
 		    	  pane.getChildren().addAll(t);
+		    	  Ball c = new Ball(frameX + 5, frameY + 5, 10);
+			  	  c.setFill(Color.BLACK);
+			  	  pane.getChildren().addAll(c);
+			  	  ConnectD connection = new ConnectD(t, c);
+			  	  pane.getChildren().addAll(connection);
 		       }		 
 		});
 		

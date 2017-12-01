@@ -22,21 +22,18 @@ public class createCircle {
 		       @Override
 		       public void handle(ActionEvent e) 
 		       {
-		    	   /*
-		    	  objectMaker<Circle> q = new objectMaker<Circle>(); 
-		    	  q.setAttributes("arrow", 25, 25, 5, Color.TRANSPARENT);
-		    	  Circle c = (Circle) q.createObject("circle");
-		    	  c.setStrokeWidth(2);
-		    	  c.setStroke(Color.BLACK);
-		    	  c.relocate(frameX, frameY);
-		    	  pane.getChildren().addAll(c);
-		    	  */
 		    	   
-		    	   Circle c = circleCreator(frameX, frameY, 25.0, Color.TRANSPARENT);
-		    	   c.setStrokeWidth(2);
-		    	   c.setStroke(Color.BLACK);
-		    	   c.relocate(frameX, frameY);
+		    	   Circle t = circleCreator(frameX, frameY, 25.0, Color.TRANSPARENT);
+		    	   t.setStrokeWidth(2);
+		    	   t.setStroke(Color.BLACK);
+		    	   t.relocate(frameX, frameY);
+		    	   pane.getChildren().addAll(t);
+		    	   
+		    	   Ball c = new Ball(frameX + 5, frameY + 5, 10);
+		    	   c.setFill(Color.BLACK);
 		    	   pane.getChildren().addAll(c);
+		    	   link connection = new link(t, c);
+		    	   pane.getChildren().addAll(connection);
 		       }		 
 		});
 		
