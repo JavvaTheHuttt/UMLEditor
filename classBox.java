@@ -34,18 +34,21 @@ public class classBox {
 		TextArea text1 = new TextArea();
 		text1.setPrefHeight(50);
 		text1.setPrefWidth(250);
+		text1.setText("Name");
 		text1.setWrapText(true);
 		TextArea text2 = new TextArea();
 		text2.setPrefHeight(100);
 		text2.setPrefWidth(250);
+		text2.setText("Attributes");
 		text2.setWrapText(true);
 		TextArea text3 = new TextArea();
 		text3.setPrefHeight(100);
 		text3.setPrefWidth(250);
+		text3.setText("Operations");
 		text3.setWrapText(true);
 		group.setLayoutX(frameX);
 		group.setLayoutY(frameY);
-		group.setPadding(new Insets(50, 5, 5, 5));
+		group.setPadding(new Insets(25, 5, 5, 5));
 		group.setBackground(new Background(new BackgroundFill(Color.web("#C0C0C0"), CornerRadii.EMPTY, Insets.EMPTY)));
 		group.getChildren().addAll(text1, text2, text3);
 		
@@ -54,8 +57,8 @@ public class classBox {
 	      orgSceneX = t.getSceneX();
 	      orgSceneY = t.getSceneY();
 	      
-	      group.setPrefWidth(group.getWidth() + 100) ; 
-    	  group.setPrefHeight(group.getHeight() + 100) ;
+	     // group.setPrefWidth(group.getWidth() + 100); 
+    	  //group.setPrefHeight(group.getHeight() + 100);
 	
 	      VBox g = (VBox) (t.getSource());
 	      g.toFront();

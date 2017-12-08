@@ -2,10 +2,11 @@ package application;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
+//import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
+import javafx.scene.paint.Color;
+//import javafx.scene.shape.Line;
 
 public class CreateLine {
 	
@@ -21,9 +22,14 @@ public class CreateLine {
 		       @Override
 		       public void handle(ActionEvent e) 
 		       {
-		    	  Line l = lineCreator();
-		    	  l.relocate(frameX, frameY);
-		    	  pane.getChildren().addAll(l);
+		    		Ball c1 = new Ball(frameX, frameY, 10);
+		    	   	c1.setFill(Color.BLACK);
+		    	   	pane.getChildren().addAll(c1);
+		    	   	Ball c2 = new Ball(frameX + 5, frameY + 5, 10);
+		    	   	c2.setFill(Color.BLACK);
+		    	   	pane.getChildren().addAll(c2);
+			    	Connection connection = new Connection(c1, c2);
+			    	pane.getChildren().addAll(connection);
 		       }	
 		       
 		});
@@ -37,6 +43,7 @@ public class CreateLine {
 	 *			and listens for a mouse click and drag
 	 * 			to move its location.
 	 */
+	/*
 	public Line lineCreator() 
 	{
 	    Line line = new Line(0, 0, 200, 300);
@@ -66,5 +73,5 @@ public class CreateLine {
 	      });
 	      	return line;
 	    }
-
+*/
 }

@@ -1,11 +1,9 @@
 package application;
 
-//import javafx.event.ActionEvent;
-//import javafx.event.EventHandler;
+
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
